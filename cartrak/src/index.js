@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom"
 import App from "./App"
-import GetTracker from "./GetTrack";
-// import DrawMap from "./DrawMap"
 
 // render the DOM
 ReactDOM.render(<App />,document.getElementById("root"))
@@ -11,17 +9,32 @@ ReactDOM.render(<App />,document.getElementById("root"))
 let Name =  "MaoMao" //get from server
 document.getElementById("greet").innerText = `Hello ${Name}`
 
-//renders tracker element
+//add buttons to my trackers
+let trackers = document.getElementById("my_tracker").getElementsByClassName("tracker-elem")
+for (var i = 0; i < trackers.length; i++ ){
+    // attach a event listener to each button
+    trackers[i].addEventListener("click",function(){
+        // send this request along with auth token to get datapoints
+        // with the datapoints call the mapping api
 
-let my_trackers = GetTracker()
-let shared_trackers = GetTracker()
-let my_trackers_dom = document.getElementById("mytrack")
-let shared_trackers_dom = document.getElementById("sharedtrack")
-// console.log(trackers.data)
-for ( let i = 0 ; i < my_trackers.data.length; i++){
-    // my_trackers_dom.append()
-    console.log(my_trackers.data[i].nickname)
+        // get the device id from attribute tags
+        console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
+    })
 }
+// attach to shared trackers
+// i could make these proper functions but im lazy
+let s_trackers = document.getElementById("shared_tracker").getElementsByClassName("tracker-elem")
+for (i = 0; i < s_trackers.length; i++ ){
+    // attach a event listener to each button
+    s_trackers[i].addEventListener("click",function(){
+        // send this request along with auth token to get datapoints
+        // with the datapoints call the mapping api
+
+        // get the device id from attribute tags
+        console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
+    })
+}
+
 
 
 

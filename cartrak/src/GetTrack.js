@@ -3,12 +3,22 @@ function GetTracker(user_token, type){
     // look in the user's ${type} field to see what devices we need
     // request the device info using device_id
     // return json list of devices { data: [ {device_id,color,nickname} ]
-    return { data: [{device_id:"test",
-                      color:"#FF0000",
-                      nickname:"Testing"},
-                    {device_id:"test2",
-                        color:"#00FF00",
-                        nickname:"Testing2"}]
-            }
+    if (type === "private") {
+        return { data: [{device_id:"test-my",
+                color:"#FF0000",
+                nickname:"Testing-my"},
+                {device_id:"test2-my",
+                    color:"#00FF00",
+                    nickname:"Testing2-my"}]
+        }
+    } else if (type === "shared"){
+        return { data: [{device_id:"test-shared",
+                color:"#FF0000",
+                nickname:"Testing-shared"},
+                {device_id:"test2-shared",
+                    color:"#00FF00",
+                    nickname:"Testing2-shared"}]
+        }
+    }
 }
 export default GetTracker
