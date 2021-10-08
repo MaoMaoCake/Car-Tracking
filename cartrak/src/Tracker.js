@@ -13,7 +13,7 @@ function Trackers(){
                         <button style={{color:device.color}} datafld={device.device_id}>{device.nickname}</button>
                     </div>
                 ))}
-                <p id="add_tracker">+ Add Tracker</p>
+                <button id="add_tracker">+ Add Tracker</button>
             </div>
             <div id="shared_tracker">
                 {shared_trackers.data.map((device) => (
@@ -22,7 +22,7 @@ function Trackers(){
 
                     </div>
                 ))}
-                <p id="share_tracker">Share Tracker</p>
+                <button id="share_tracker">Share Tracker</button>
             </div>
         </div>
     )

@@ -21,6 +21,15 @@ for (var i = 0; i < trackers.length; i++ ){
         console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
     })
 }
+//add and share buttons
+document.getElementById("add_tracker").addEventListener("click",function() {
+    console.log("Go to add page")
+})
+
+document.getElementById("share_tracker").addEventListener("click",function() {
+    console.log("Go to share page")
+})
+
 // attach to shared trackers
 // i could make these proper functions but im lazy
 let s_trackers = document.getElementById("shared_tracker").getElementsByClassName("tracker-elem")
