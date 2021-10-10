@@ -10,17 +10,17 @@ function Trackers(){
             <div id="my_tracker">
                 <button id='my_trak_btn'>My Trackers</button>
                 {my_trackers.data.map((device) => (
-                    <div class='tracker-elem' style={{display:"none"}}>
+                    <div className='tracker-elem' style={{display:"none"}}>
                         <button style={{color:device.color}} datafld={device.device_id}>{device.nickname}</button>
                     </div>
                 ))}
-                    <div class='tracker-elem' style={{display:"none"}}><button id="add_tracker">+ Add Tracker</button></div>
+                    <div className='tracker-elem' style={{display:"none"}}><button id="add_tracker">+ Add Tracker</button></div>
             </div>
 
             <div id="shared_tracker">
                 <button id='shared_trak_btn'>Shared Trackers</button>
                 {shared_trackers.data.map((device) => (
-                    <div class='tracker-elem' style={{display:"none"}}>
+                    <div className='tracker-elem' style={{display:"none"}}>
                         <button style={{color:device.color}} datafld={device.device_id}>{device.nickname}</button>
 
                     </div>

@@ -12,12 +12,12 @@ document.getElementById("greet").innerText = `Hello ${Name}`
 
 //add buttons to my trackers
 let trackers = document.getElementById("my_tracker").getElementsByClassName("tracker-elem")
-// minus 1 bcus the last one is always add tracker
-for (var i = 0; i < trackers.length - 1; i++ ){
+// minus 1 because the last one is always add tracker
+for (let i = 0; i < trackers.length - 1; i++ ){
     // attach a event listener to each button
     trackers[i].addEventListener("click",function(){
-        // send this request along with auth token to get datapoints
-        // with the datapoints call the mapping api
+        // send this request along with auth token to get data points
+        // with the data points call the mapping api
 
         // get the device id from attribute tags
         console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
@@ -36,12 +36,12 @@ document.getElementById("share_tracker").addEventListener("click",function() {
 // attach to shared trackers
 // i could make these proper functions but im lazy
 let s_trackers = document.getElementById("shared_tracker").getElementsByClassName("tracker-elem")
-// minus 1 bcus the last one is always share tracker
-for (i = 0; i < s_trackers.length - 1; i++ ){
+// minus 1 because the last one is always share tracker
+for (let i = 0; i < s_trackers.length - 1; i++ ){
     // attach a event listener to each button
     s_trackers[i].addEventListener("click",function(){
-        // send this request along with auth token to get datapoints
-        // with the datapoints call the mapping api
+        // send this request along with auth token to get data points
+        // with the data points call the mapping api
 
         // get the device id from attribute tags
         console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
