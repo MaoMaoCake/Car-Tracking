@@ -9,7 +9,10 @@ function GetTracker(user_token, type){
                 nickname:"Testing-my"},
                 {device_id:"test2-my",
                     color:"#00FF00",
-                    nickname:"Testing2-my"}]
+                    nickname:"Testing2-my"},
+                {device_id:"test3-my",
+                    color:"#0000FF",
+                    nickname:"Testing3-my"}]
         }
     } else if (type === "shared"){
         return { data: [{device_id:"test-shared",

@@ -21,7 +21,7 @@ for (let i = 0; i < trackers.length - 1; i++ ){
 
         document.getElementById("device_name").innerText = this.innerText
         // get the device id from attribute tags
-        console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
+        // console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
     })
 }
 
@@ -46,7 +46,7 @@ for (let i = 0; i < s_trackers.length - 1; i++ ){
 
         document.getElementById("device_name").innerText = this.innerText
         // get the device id from attribute tags
-        console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
+        // console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
     })
 }
 
