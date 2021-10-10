@@ -4,7 +4,7 @@ import MView from "./MView";
 
 function App(){
     return (
-            <div>
+            <div id="app">
             <NavBar />
             <MView />
             </div>

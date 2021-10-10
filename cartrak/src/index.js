@@ -19,6 +19,7 @@ for (let i = 0; i < trackers.length - 1; i++ ){
         // send this request along with auth token to get data points
         // with the data points call the mapping api
 
+        document.getElementById("device_name").innerText = this.innerText
         // get the device id from attribute tags
         console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
     })
@@ -43,6 +44,7 @@ for (let i = 0; i < s_trackers.length - 1; i++ ){
         // send this request along with auth token to get data points
         // with the data points call the mapping api
 
+        document.getElementById("device_name").innerText = this.innerText
         // get the device id from attribute tags
         console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
     })
