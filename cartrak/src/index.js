@@ -12,7 +12,8 @@ document.getElementById("greet").innerText = `Hello ${Name}`
 
 //add buttons to my trackers
 let trackers = document.getElementById("my_tracker").getElementsByClassName("tracker-elem")
-for (var i = 0; i < trackers.length; i++ ){
+// minus 1 bcus the last one is always add tracker
+for (var i = 0; i < trackers.length - 1; i++ ){
     // attach a event listener to each button
     trackers[i].addEventListener("click",function(){
         // send this request along with auth token to get datapoints
@@ -22,6 +23,7 @@ for (var i = 0; i < trackers.length; i++ ){
         console.log(this.getElementsByTagName("Button")[0].getAttribute("datafld"))
     })
 }
+
 //add and share buttons
 document.getElementById("add_tracker").addEventListener("click",function() {
     console.log("Go to add page")
@@ -34,7 +36,8 @@ document.getElementById("share_tracker").addEventListener("click",function() {
 // attach to shared trackers
 // i could make these proper functions but im lazy
 let s_trackers = document.getElementById("shared_tracker").getElementsByClassName("tracker-elem")
-for (i = 0; i < s_trackers.length; i++ ){
+// minus 1 bcus the last one is always share tracker
+for (i = 0; i < s_trackers.length - 1; i++ ){
     // attach a event listener to each button
     s_trackers[i].addEventListener("click",function(){
         // send this request along with auth token to get datapoints
@@ -45,7 +48,30 @@ for (i = 0; i < s_trackers.length; i++ ){
     })
 }
 
+//make the My Tracker and Shared tracker buttons toggle visibility
+document.getElementById("my_trak_btn").addEventListener("click",function (){
+    let trackers = document.getElementById("my_tracker").getElementsByClassName("tracker-elem")
+    for (let i = 0; i < trackers.length; i++) {
 
+        if (trackers[i].getAttribute("style") === "display: none;") {
+            trackers[i].setAttribute("style", "display: block;")
+        } else if (trackers[i].getAttribute("style") === "display: block;") {
+            trackers[i].setAttribute("style", "display: none;")
+        }
+    }
+})
+
+document.getElementById("shared_trak_btn").addEventListener("click",function (){
+    let trackers = document.getElementById("shared_tracker").getElementsByClassName("tracker-elem")
+    for (let i = 0; i < trackers.length; i++) {
+
+        if (trackers[i].getAttribute("style") === "display: none;") {
+            trackers[i].setAttribute("style", "display: block;")
+        } else if (trackers[i].getAttribute("style") === "display: block;") {
+            trackers[i].setAttribute("style", "display: none;")
+        }
+    }
+})
 
 
 
