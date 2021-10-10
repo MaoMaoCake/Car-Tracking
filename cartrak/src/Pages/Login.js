@@ -1,5 +1,4 @@
 import React from "react";
-import {Redirect} from "react-router-dom";
 import setCookie from "../Component/cookie";
 
 const appStyle = {
@@ -80,6 +79,7 @@ export default function Login(){
         let login_success = true
         if (login_success){
             setCookie("username",data.username)
+            setCookie("token","super_secret_token_from_the_server")
             window.location.replace("/")
         }
         // console.log(data.username);
