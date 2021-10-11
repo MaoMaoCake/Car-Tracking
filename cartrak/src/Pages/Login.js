@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import setCookie from "../Component/cookie";
 
 const appStyle = {
@@ -70,7 +71,9 @@ const Form = ({onSubmit}) => {
             <div>
                 <button style={submitStyle} type="submit">Submit</button>
             </div>
+            <p>Dont have an acccount?<Link to="/signup"> Sign Up</Link></p>
         </form>
+
     );
 };
 
