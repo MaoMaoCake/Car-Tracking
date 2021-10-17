@@ -1,0 +1,206 @@
+import React from "react";
+import PropTypes from "prop-types";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Collapse from "@material-ui/core/Collapse";
+//import Typography from '@mui/material/Typography';
+import { Typography, makeStyles, Box, Paper, Grid } from '@material-ui/core';
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+//import Box from '@mui/material/Box';
+import Divider from "@material-ui/core/Divider";
+//import Grid from '@mui/material/Grid';
+import { withStyles } from "@material-ui/styles";
+import {getCookie} from "./cookie";
+import {Link} from "react-router-dom";
+import NavBar from "./Nav";
+import { textAlign } from "@material-ui/system";
+
+const styles = theme => ({
+    root: {
+        width: "150%",
+        maxWidth: 360,
+        text: "text.primary",
+        //background: theme.palette.background.paper
+    },
+    nested: {
+        // paddingLeft: theme.spacing(4)
+    }
+});
+function getItems() {
+    var json = {
+        list: [
+            {
+                id: 1,
+                items: [
+                    {
+                        id: 1,
+                        name: "My Trackers",
+                        subitems: [
+                            {
+                                id: 1,
+                                name: "My Tracker 1"
+                            },
+                            {
+                                id: 2,
+                                name: "Add Trackers"
+                            }
+                        ]
+                    },
+                ]
+            },
+            {
+                id: 2,
+
+                items: [
+                    {
+                        id: 2,
+                        name: "Shared Trackers",
+                        subitems: [
+                            {
+                                id: 1,
+                                name: "Shared Tracker 1"
+                            },
+                            {
+                                id: 2,
+                                name: "Share Tracker"
+                                
+                            }
+                        ]
+                    }
+                ]
+            },
+        ]
+    };
+    return json;
+}
+class NestedList extends React.Component {
+    state = {};
+    handleClick = e => {
+        this.setState({ [e]: !this.state[e] });
+    };
+    render() {
+        const items = getItems();
+        const { classes } = this.props;
+        let Name = getCookie("username");
+        if (Name !== ""){
+            return (
+                <div>
+                    <Box sx={{ width: '150%', maxWidth: 300, my: 3, mx: 3 }}>
+                        <Grid container alignItems="center">
+                            <Grid item xs>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Hello {Name}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <Divider variant="middle" />
+                    
+                    {items.list.map(list => {
+                        return (
+                            <List
+                                className={classes.root}
+                                key={list.id}
+                                // subheader={
+                                //     <ListSubheader>{list.title}</ListSubheader>
+                                // }
+                            >
+                                
+                                {list.items.map(item => {
+                                    return (
+                                        <div key={item.id}>
+                                            {item.subitems != null ? (
+                                                <div key={item.id}>
+                                                    <ListItem
+                                                        button
+                                                        key={item.id}
+                                                        onClick={this.handleClick.bind(
+                                                            this,
+                                                            item.name
+                                                        )}
+                                                    >
+                                                        <ListItemText
+                                                            primary={item.name}
+                                                        />
+                                                        {this.state[item.name] ? (
+                                                            <ExpandLess />
+                                                        ) : (
+                                                            <ExpandMore />
+                                                        )}
+                                                    </ListItem>
+                                                    <Collapse
+                                                        key={list.items.id}
+                                                        component="li"
+                                                        in={this.state[item.name]}
+                                                        timeout="auto"
+                                                        unmountOnExit
+                                                    >
+                                                        <List disablePadding>
+                                                            {item.subitems.map(
+                                                                sitem => {
+                                                                    return (
+                                                                        <ListItem
+                                                                            button
+                                                                            key={
+                                                                                sitem.id
+                                                                            }
+                                                                            className={
+                                                                                classes.nested
+                                                                            }
+                                                                        >
+                                                                            <ListItemText
+                                                                                key={
+                                                                                    sitem.id
+                                                                                }
+                                                                                primary={
+                                                                                    sitem.name
+                                                                                }
+                                                                            />
+                                                                        </ListItem>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </List>
+                                                    </Collapse>{" "}
+                                                </div>
+                                            ) : (
+                                                <ListItem
+                                                    button
+                                                    onClick={this.handleClick.bind(
+                                                        this,
+                                                        item.name
+                                                    )}
+                                                    key={item.id}
+                                                >
+                                                    <ListItemText
+                                                        primary={item.name}
+                                                    />
+                                                </ListItem>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                                <Divider key={list.id} absolute />
+                            </List>
+                        );
+                        
+                    })}
+                </div>
+            );
+        }
+    else{
+        return (
+            <h2>Please <Link to="/login">Login</Link></h2>
+        );
+    }
+    }
+}
+NestedList.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+// export default withStyles(styles)(NestedList);
+export const NavBarNL = withStyles(styles)(NestedList);
