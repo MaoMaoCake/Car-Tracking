@@ -18,6 +18,10 @@ import {getCookie} from "./cookie";
 import {Link} from "react-router-dom";
 import NavBar from "./Nav";
 import { textAlign } from "@material-ui/system";
+import Button from '@material-ui/core/Button';
+import { styled } from "@material-ui/styles";
+import Stack from "@material-ui/core/Stack";
+
 
 const styles = theme => ({
     root: {
@@ -86,6 +90,16 @@ class NestedList extends React.Component {
         const items = getItems();
         const { classes } = this.props;
         let Name = getCookie("username");
+        const BootstrapButton = styled(Button)({
+            boxShadow: "true",
+            textTransform: "none",
+            fontSize: 16,
+            padding: "1px 20px",
+            border: "1px solid",
+            lineHeight: 1.5,
+            backgroundColor: "#808080",
+            borderColor: "#808080"
+          });
         if (Name !== ""){
             return (
                 <div>
@@ -99,7 +113,6 @@ class NestedList extends React.Component {
                         </Grid>
                     </Box>
                     <Divider variant="middle" />
-                    
                     {items.list.map(list => {
                         return (
                             <List
@@ -189,6 +202,10 @@ class NestedList extends React.Component {
                         );
                         
                     })}
+
+                    <Stack spacing={2} direction="row" marginY = {45} marginX = {-1}>
+                        <BootstrapButton variant="contained">Log out</BootstrapButton>
+                    </Stack>
                 </div>
             );
         }
