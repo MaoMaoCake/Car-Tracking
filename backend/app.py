@@ -15,8 +15,10 @@ def login():
     user_token = {"token": "None"}
     if request.method == "GET":
         # get the username and password from the request
-        username = request.args.get('username')
-        password = request.args.get('password')
+        # get cookies from the request
+        # print(request.cookies.get('token'))
+        username = request.args['username']
+        password = request.args['password']
         # verify the user
         if verify_user(username,password):
             user_token = {"token":get_token(username)}

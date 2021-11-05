@@ -60,7 +60,17 @@ const Form = ({onSubmit}) => {
         e.preventDefault();
         const data = {
             username: usernameRef.current.value,
-            password: passwordRef.current.value
+            password: passwordRef.current.value,
+            callback: function (response) {
+                response = JSON.parse(response)
+                if (response["token"] !== "None"){
+                    setCookie("username",data.username)
+                    setCookie("token",response["token"])
+                    window.location.replace("/")
+                } else {
+                    alert("Invalid username or password")
+                }
+            }
         };
         onSubmit(data);
     };
@@ -79,13 +89,13 @@ const Form = ({onSubmit}) => {
 
 export default function Login(){
     const handleSubmit = data => {
-        let login_success = true
-        if (login_success){
-            setCookie("username",data.username)
-            setCookie("token","super_secret_token_from_the_server")
-            window.location.replace("/")
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
+                data.callback(xmlHttp.responseText);
         }
-        // console.log(data.username);
+    xmlHttp.open("GET", "/api/login?username="+ data.username + "&password=" + data.password, true); // true for asynchronous
+    xmlHttp.send(null);
     };
     return (
         <div style={appStyle}>
@@ -93,3 +103,21 @@ export default function Login(){
         </div>
     );
 }
+
+// function httpGetLoginAsync(username,password, callback)
+// {
+//     var xmlHttp = new XMLHttpRequest();
+//     xmlHttp.onreadystatechange = function() {
+//         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
+//             callback(xmlHttp.responseText);
+//     }
+//     xmlHttp.open("GET", "/api/login?username="+ username + "&password=" + password, true); // true for asynchronous
+//     xmlHttp.send(null);
+// }
+// <button onClick={function (){
+//                     httpGetLoginAsync("admin", "password",function (response) {
+//                         console.log(response);
+//                     });
+//                 }}>
+//                     Click me
+//                 </button>
