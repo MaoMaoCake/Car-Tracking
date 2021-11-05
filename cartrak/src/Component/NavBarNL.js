@@ -18,6 +18,10 @@ import {getCookie} from "./cookie";
 import {Link} from "react-router-dom";
 import NavBar from "./Nav";
 import { textAlign } from "@material-ui/system";
+import Button from '@material-ui/core/Button';
+import { styled } from "@material-ui/styles";
+import Stack from "@material-ui/core/Stack";
+import GT from "./GT";
 
 const styles = theme => ({
     root: {
@@ -30,62 +34,26 @@ const styles = theme => ({
         // paddingLeft: theme.spacing(4)
     }
 });
-function getItems() {
-    var json = {
-        list: [
-            {
-                id: 1,
-                items: [
-                    {
-                        id: 1,
-                        name: "My Trackers",
-                        subitems: [
-                            {
-                                id: 1,
-                                name: "My Tracker 1"
-                            },
-                            {
-                                id: 2,
-                                name: "Add Trackers"
-                            }
-                        ]
-                    },
-                ]
-            },
-            {
-                id: 2,
 
-                items: [
-                    {
-                        id: 2,
-                        name: "Shared Trackers",
-                        subitems: [
-                            {
-                                id: 1,
-                                name: "Shared Tracker 1"
-                            },
-                            {
-                                id: 2,
-                                name: "Share Tracker"
-                                
-                            }
-                        ]
-                    }
-                ]
-            },
-        ]
-    };
-    return json;
-}
 class NestedList extends React.Component {
     state = {};
     handleClick = e => {
         this.setState({ [e]: !this.state[e] });
     };
     render() {
-        const items = getItems();
+        const items = GT();
         const { classes } = this.props;
         let Name = getCookie("username");
+        const BootstrapButton = styled(Button)({
+            boxShadow: "true",
+            textTransform: "none",
+            fontSize: 16,
+            padding: "1px 20px",
+            border: "1px solid",
+            lineHeight: 1.5,
+            backgroundColor: "#808080",
+            borderColor: "#808080"
+          });
         if (Name !== ""){
             return (
                 <div>
@@ -99,15 +67,11 @@ class NestedList extends React.Component {
                         </Grid>
                     </Box>
                     <Divider variant="middle" />
-                    
                     {items.list.map(list => {
                         return (
                             <List
                                 className={classes.root}
                                 key={list.id}
-                                // subheader={
-                                //     <ListSubheader>{list.title}</ListSubheader>
-                                // }
                             >
                                 
                                 {list.items.map(item => {
@@ -188,7 +152,10 @@ class NestedList extends React.Component {
                             </List>
                         );
                         
-                    })}
+                    })};
+                    <Stack spacing={2} direction="row" marginY = {45} marginX = {-1}>
+                        <BootstrapButton variant="contained">Log out</BootstrapButton>
+                    </Stack>
                 </div>
             );
         }
