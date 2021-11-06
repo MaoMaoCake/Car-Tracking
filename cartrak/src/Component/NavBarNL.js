@@ -41,7 +41,7 @@ class NestedList extends React.Component {
         this.setState({ [e]: !this.state[e] });
     };
     render() {
-        const items = GT();
+        const items = GT(getCookie("token"));
         const { classes } = this.props;
         let Name = getCookie("username");
         const BootstrapButton = styled(Button)({
