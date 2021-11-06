@@ -26,13 +26,19 @@ def login():
 
 @app.route('/api/locations',methods=['GET'])
 def locations():
-    locations = get_locations(1)
-    return locations
+    if request.method == "GET":
+        # get the token from the request
+        device_id = request.args.get('device_id')
+        locations = get_locations(device_id)
+        return locations
 
 @app.route('/api/trackers',methods=['GET'])
 def get_trackers():
-    trackers = magic()
-    return trackers
+    if request.method == "GET":
+        # get the token from the request
+        token = request.args.get('token')
+        trackers = magic(token)
+        return trackers
 
 @app.route('/api/signup', methods=['POST'])
 def signup():

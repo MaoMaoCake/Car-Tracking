@@ -23,6 +23,9 @@ import { styled } from "@material-ui/styles";
 import Stack from "@material-ui/core/Stack";
 import GT from "./GT";
 
+import getLocation from "./getLocation";
+import {getLCP} from "web-vitals";
+
 const styles = theme => ({
     root: {
         width: "150%",
@@ -116,8 +119,12 @@ class NestedList extends React.Component {
                                                                                 classes.nested
                                                                             }
                                                                             onClick={function (){
-                                                                                console.log(sitem.name)
-                                                                                console.log(sitem.id)
+                                                                                document.getElementById("device_name").innerText = sitem.name
+                                                                                let loc_array = getLocation(sitem.id)
+                                                                                console.log(loc_array)
+                                                                                // mapping api here
+                                                                                // modify below to put a map there instead
+                                                                                document.getElementById("Map").innerText = JSON.stringify(loc_array)
                                                                             }}
                                                                             style={{"color":sitem.color}}
                                                                         > {/* ^map the function to individual buttons*/}
