@@ -39,7 +39,7 @@ def magic():
                             {
                                 "id": "2",
                                 "name": "Shared Tracker 2",
-                                "color": "yellow"
+                                "color": "brown"
                             }
                         ]
                     },

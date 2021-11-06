@@ -115,7 +115,12 @@ class NestedList extends React.Component {
                                                                             className={
                                                                                 classes.nested
                                                                             }
-                                                                        >
+                                                                            onClick={function (){
+                                                                                console.log(sitem.name)
+                                                                                console.log(sitem.id)
+                                                                            }}
+                                                                            style={{"color":sitem.color}}
+                                                                        > {/* ^map the function to individual buttons*/}
                                                                             <ListItemText
                                                                                 key={
                                                                                     sitem.id
@@ -152,7 +157,7 @@ class NestedList extends React.Component {
                             </List>
                         );
                         
-                    })};
+                    })}
                     <Stack spacing={2} direction="row" marginY = {45} marginX = {-1}>
                         <BootstrapButton variant="contained">Log out</BootstrapButton>
                     </Stack>

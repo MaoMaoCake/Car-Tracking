@@ -11,8 +11,6 @@ function httpGetTokensync(user_token)
 }
 
 function GT(user_token){
-    let response = httpGetTokensync(user_token)
-    console.log(response)
-    return response;
+    return httpGetTokensync(user_token);
 }
 export default GT
