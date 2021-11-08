@@ -3,30 +3,30 @@ Description: |
   Cartrack CloudFormation template
 
 Resources:
-  Cartrack-VPC:
-    Type: "AWS::EC2::VPC"
-    Properties:
-      CidrBlock: "172.19.0.0/16"
-      EnableDnsSupport: "true"
-      EnableDnsHostnames: "true"
-      Tags:
-        - Key: Name
-          Value: "Cartrack-VPC"
-
-  Cartrack-SG:
-    Type: "AWS::EC2::SecurityGroup"
-    Properties:
-      GroupDescription: "Cartrack SG"
-      VpcId: !Ref Cartrack-VPC
-      Tags:
-        - Key: Name
-          Value: "Cartrack-SG"
-
-  Cartrack-Subnet:
-    Type: "AWS::EC2::Subnet"
-    Properties:
-      VpcId: !Ref Cartrack-VPC
-      CidrBlock: "172.19.0.0/24"
+#  Cartrack-VPC:
+#    Type: "AWS::EC2::VPC"
+#    Properties:
+#      CidrBlock: "172.19.0.0/16"
+#      EnableDnsSupport: "true"
+#      EnableDnsHostnames: "true"
+#      Tags:
+#        - Key: Name
+#          Value: "Cartrack-VPC"
+#
+#  Cartrack-SG:
+#    Type: "AWS::EC2::SecurityGroup"
+#    Properties:
+#      GroupDescription: "Cartrack SG"
+#      VpcId: !Ref Cartrack-VPC
+#      Tags:
+#        - Key: Name
+#          Value: "Cartrack-SG"
+#
+#  Cartrack-Subnet:
+#    Type: "AWS::EC2::Subnet"
+#    Properties:
+#      VpcId: !Ref Cartrack-VPC
+#      CidrBlock: "172.19.0.0/24"
 
   #  The main server instance
   Cartrack-ec2:
@@ -35,10 +35,10 @@ Resources:
       ImageId: "ami-0f9c9d7f"
       InstanceType: "t2.micro"
       KeyName: "Cartrack"
-      SecurityGroups:
-        - Ref: "Cartrack-SG"
-      SubnetId:
-        Ref: "Cartrack-Subnet"
+#      SecurityGroups:
+#        - Ref: "Cartrack-SG"
+#      SubnetId:
+#        Ref: "Cartrack-Subnet"
       Tags:
         - Key: Name
           Value: "Cartrack-ec2"
@@ -101,3 +101,35 @@ Resources:
       Tags:
         - Key: Name
           Value: "Cartrack-DynamoDB-Locations"
+  Cartrack-IOT-Core-MQTT:
+    Type: "AWS::IoT::Core::Mqtt"
+    Properties:
+      Broker:
+        EndpointAddress: "a1jqzqjqzqzqz-ats.iot.us-east-1.amazonaws.com"
+        EndpointPort: 8883
+      Policies:
+        - PolicyName: "Cartrack-IOT-Core-MQTT"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "iot:Connect"
+                  - "iot:Publish"
+                  - "iot:Subscribe"
+                  - "iot:Receive"
+                  - "iot:GetThingShadow"
+                  - "iot:UpdateThingShadow"
+                  - "iot:DeleteThingShadow"
+                  - "iot:DescribeThing"
+                  - "iot:DescribeThingShadow"
+                  - "iot:ListThingGroups"
+                  - "iot:ListThingsInThingGroup"
+                  - "iot:ListTopicRules"
+                  - "iot:ListV2LoggingLevels"
+                  - "iot:ListV2LoggingOptions"
+                Resource: "*"
+      ThingName: "Cartrack-IOT-Core-MQTT"
+      Tags:
+        - Key: Name
+          Value: "Cartrack-IOT-Core-MQTT"
