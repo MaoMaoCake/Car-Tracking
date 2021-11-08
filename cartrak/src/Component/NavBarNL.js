@@ -9,7 +9,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Divider from "@material-ui/core/Divider";
 import { withStyles } from "@material-ui/styles";
-import setCookie, {getCookie} from "./cookie";
+import {getCookie} from "./cookie";
 import {Link} from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import { styled } from "@material-ui/styles";

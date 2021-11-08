@@ -1,4 +1,3 @@
-import React from "react";
 import setCookie from "./cookie";
 
 export default function Logout(){
