@@ -9,7 +9,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Divider from "@material-ui/core/Divider";
 import { withStyles } from "@material-ui/styles";
-import {getCookie} from "./cookie";
+import setCookie, {getCookie} from "./cookie";
 import {Link} from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import { styled } from "@material-ui/styles";
@@ -18,6 +18,7 @@ import ReactDOM from "react-dom";
 
 import GT from "./GT";
 import drawMap from "./map";
+import Logout from "./Logout";
 
 const styles = theme => ({
     root: {
@@ -156,7 +157,7 @@ class NestedList extends React.Component {
                         
                     })}
                     <Stack spacing={2} direction="row" marginY = {45} marginX = {-1}>
-                        <BootstrapButton variant="contained">Log out</BootstrapButton>
+                        <BootstrapButton variant="contained" onClick={Logout}>Log out</BootstrapButton>
                     </Stack>
                 </div>
             );
