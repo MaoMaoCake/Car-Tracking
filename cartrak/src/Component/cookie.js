@@ -1,5 +1,5 @@
 export default function setCookie(cname, cvalue){
-    document.cookie = cname + "=" + cvalue + ";" + ";path=/";
+    document.cookie = cname + "=" + cvalue + ";;path=/";
 }
 export function getCookie(cname){
     let name = cname + "=";
