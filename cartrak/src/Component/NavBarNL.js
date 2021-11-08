@@ -1,34 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-//import Typography from '@mui/material/Typography';
-import { Typography, makeStyles, Box, Paper, Grid } from '@material-ui/core';
+import { Typography, Box, Grid } from '@material-ui/core';
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-//import Box from '@mui/material/Box';
 import Divider from "@material-ui/core/Divider";
-//import Grid from '@mui/material/Grid';
 import { withStyles } from "@material-ui/styles";
 import {getCookie} from "./cookie";
 import {Link} from "react-router-dom";
-import NavBar from "./Nav";
-import { textAlign } from "@material-ui/system";
 import Button from '@material-ui/core/Button';
 import { styled } from "@material-ui/styles";
 import Stack from "@material-ui/core/Stack";
+import ReactDOM from "react-dom";
+
 import GT from "./GT";
-
-//map api
-import 'https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js';
-import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js';
-
-import getLocation from "./getLocation";
-import {getLCP} from "web-vitals";
+import drawMap from "./map";
 
 const styles = theme => ({
     root: {
@@ -124,23 +113,8 @@ class NestedList extends React.Component {
                                                                             }
                                                                             onClick={function (){
                                                                                 document.getElementById("device_name").innerText = sitem.name
-                                                                                let loc_array = getLocation(sitem.id)
-                                                                                console.log(loc_array)
                                                                                 // mapping api here
-                                                                                // modify below to put a map there instead
-                                                                                /*
-                                                                                mapboxgl.accessToken = 'pk.eyJ1Ijoia2FnZXJvdS1tYXRjaGEtbGF0dGUiLCJhIjoiY2t2cGdyZmcyNDgxZzJ2cWlsY2M0Znl1diJ9.oA1im9g0X-DgCwQTKC_0HA';
-                                                                                const map = new mapboxgl.Map({
-                                                                                    container: 'map', // Container ID
-                                                                                    style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
-                                                                                    center: [100.57285, 13.72288], // Starting position [lng, lat]
-                                                                                    zoom: 12, // Starting zoom level
-                                                                                });
-                                                                                const marker = new mapboxgl.Marker() // initialize a new marker
-                                                                                .setLngLat([100.57285, 13.72288]) // Marker [lng, lat] coordinates
-                                                                                .addTo(map); //
-                                                                                document.getElementById("Map").innerText = JSON.stringify(loc_array)
-                                                                                */
+                                                                                ReactDOM.render(drawMap(sitem.id), document.getElementById('Map'))
                                                                             }}
                                                                             style={{"color":sitem.color}}
                                                                         > {/* ^map the function to individual buttons*/}
