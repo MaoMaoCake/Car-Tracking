@@ -3,8 +3,8 @@ from flask import Flask,request
 from backend.utility.login import verify_user,get_token
 from backend.utility.location import get_locations
 from backend.utility.signup import add_user,check_user_not_exist,check_email_not_exist
+from backend.utility.trackers import getTrackers
 
-from backend.utility.testfunc import magic
 
 app = Flask(__name__)
 
@@ -37,7 +37,7 @@ def get_trackers():
     if request.method == "GET":
         # get the token from the request
         token = request.args.get('token')
-        trackers = magic(token)
+        trackers = getTrackers(token)
         return trackers
 
 @app.route('/api/signup', methods=['POST'])
