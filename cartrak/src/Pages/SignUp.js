@@ -2,7 +2,8 @@ import React from "react";
 
 const appStyle = {
     height: '250px',
-    display: 'flex'
+    display: 'flex',
+    width: '1300px'
 };
 
 const formStyle = {

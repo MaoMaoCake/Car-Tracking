@@ -15,10 +15,14 @@ import Button from '@material-ui/core/Button';
 import { styled } from "@material-ui/styles";
 import Stack from "@material-ui/core/Stack";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom"
+
 
 import GT from "./GT";
 import drawMap from "./map";
 import Logout from "./Logout";
+import Login from "../Pages/Login";
+import SignUp from "../Pages/SignUp"
 
 const styles = theme => ({
     root: {
@@ -164,7 +168,13 @@ class NestedList extends React.Component {
         }
     else{
         return (
-            <h2>Please <Link to="/login">Login</Link></h2>
+            // <h2>Please <Link to="/login">Login</Link></h2>
+            <Router>
+                <div>
+                    <Route exact path='/' component={Login} />
+                    <Route path='/SignUp' component={SignUp} />
+                </div>
+            </Router>
         );
     }
     }

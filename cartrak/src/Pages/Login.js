@@ -4,7 +4,8 @@ import setCookie from "../Component/cookie";
 
 const appStyle = {
     height: '250px',
-    display: 'flex'
+    display: 'flex',
+    width: '1300px'
 };
 
 const formStyle = {
