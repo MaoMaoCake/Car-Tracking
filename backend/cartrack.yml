@@ -3,133 +3,77 @@ Description: |
   Cartrack CloudFormation template
 
 Resources:
-#  Cartrack-VPC:
-#    Type: "AWS::EC2::VPC"
-#    Properties:
-#      CidrBlock: "172.19.0.0/16"
-#      EnableDnsSupport: "true"
-#      EnableDnsHostnames: "true"
-#      Tags:
-#        - Key: Name
-#          Value: "Cartrack-VPC"
-#
-#  Cartrack-SG:
-#    Type: "AWS::EC2::SecurityGroup"
-#    Properties:
-#      GroupDescription: "Cartrack SG"
-#      VpcId: !Ref Cartrack-VPC
-#      Tags:
-#        - Key: Name
-#          Value: "Cartrack-SG"
-#
-#  Cartrack-Subnet:
-#    Type: "AWS::EC2::Subnet"
-#    Properties:
-#      VpcId: !Ref Cartrack-VPC
-#      CidrBlock: "172.19.0.0/24"
-
-  #  The main server instance
-  Cartrack-ec2:
-    Type: "AWS::EC2::Instance"
+  CarTrackEC2:
+    Type: AWS::EC2::Instance
     Properties:
-      ImageId: "ami-0f9c9d7f"
-      InstanceType: "t2.micro"
-      KeyName: "Cartrack"
-#      SecurityGroups:
-#        - Ref: "Cartrack-SG"
-#      SubnetId:
-#        Ref: "Cartrack-Subnet"
+      # change to singapore
+      AvailabilityZone: us-east-1a
+      ImageId: ami-01cc34ab2709337aa
+      InstanceType: t2.micro
+      UserData:
+        !Base64 |
+        #!/bin/bash
+        apt update && apt upgrade -y
+        apt install git
+        git clone https://github.com/maomaocake/cartrack.git
+        cd backend
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+        export PYTHONPATH=~/Car-Tracking
+        python3 app.py
+        deactivate
+        cd ../cartrack
+        npm install
+        npm run build
+        cd ../cartrack/dist
+        serve -s build -l 80
       Tags:
         - Key: Name
-          Value: "Cartrack-ec2"
+          Value: CarTrack
+        - Key: Environment
+          Value: Dev
+        - Key: cie21
+          Value: group1
 
-  # DynamoDB tables
-  # todo: modify the table structure
-  # requires email username password(hashed)
-  # user_device, access token and shared device to be populated by code
-  Cartrack-DynamoDB-Users:
-    Type: "AWS::DynamoDB::Table"
+  CarTrackDynamoDBUserTable:
+    Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-        - AttributeName: id
+        - AttributeName: username
           AttributeType: S
       KeySchema:
-        - AttributeName: id
+        - AttributeName: username
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
-      TableName: Cartrack-DynamoDB-Users
-      Tags:
-        - Key: Name
-          Value: "Cartrack-DynamoDB-Users"
+      TableName: CarTrackUsers
 
-  # devices Table
-  # requires device_id, device_name, device_color
-  Cartrack-DynamoDB-Devices:
-    Type: "AWS::DynamoDB::Table"
+  CarTrackDynamoDBDeviceTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: device_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: device_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: CarTrackDevices
+
+  CarTrackDynamoDBLocationTable:
+    Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-        - AttributeName: id
+        - AttributeName: device_id
           AttributeType: S
       KeySchema:
-        - AttributeName: id
+        - AttributeName: device_id
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
-      TableName: Cartrack-DynamoDB-Devices
-      Tags:
-        - Key: Name
-          Value: "Cartrack-DynamoDB-Devices"
-
-  # device location table
-  # requires device_id lat long timestamp heading?
-  Cartrack-DynamoDB-Locations:
-    Type: "AWS::DynamoDB::Table"
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
-      TableName: Cartrack-DynamoDB-Locations
-      Tags:
-        - Key: Name
-          Value: "Cartrack-DynamoDB-Locations"
-  Cartrack-IOT-Core-MQTT:
-    Type: "AWS::IoT::Core::Mqtt"
-    Properties:
-      Broker:
-        EndpointAddress: "a1jqzqjqzqzqz-ats.iot.us-east-1.amazonaws.com"
-        EndpointPort: 8883
-      Policies:
-        - PolicyName: "Cartrack-IOT-Core-MQTT"
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: "Allow"
-                Action:
-                  - "iot:Connect"
-                  - "iot:Publish"
-                  - "iot:Subscribe"
-                  - "iot:Receive"
-                  - "iot:GetThingShadow"
-                  - "iot:UpdateThingShadow"
-                  - "iot:DeleteThingShadow"
-                  - "iot:DescribeThing"
-                  - "iot:DescribeThingShadow"
-                  - "iot:ListThingGroups"
-                  - "iot:ListThingsInThingGroup"
-                  - "iot:ListTopicRules"
-                  - "iot:ListV2LoggingLevels"
-                  - "iot:ListV2LoggingOptions"
-                Resource: "*"
-      ThingName: "Cartrack-IOT-Core-MQTT"
-      Tags:
-        - Key: Name
-          Value: "Cartrack-IOT-Core-MQTT"
+      TableName: CarTrackLocations
