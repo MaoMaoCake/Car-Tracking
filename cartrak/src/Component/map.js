@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 import './map.css';
 import {getCookie} from "./cookie";
 function get_map_key(){
@@ -12,14 +14,14 @@ function get_map_key(){
         return JSON.parse(xmlHttp.responseText);
     }
 }
-
+// get_map_key returns JSON with api_key key
 mapboxgl.accessToken = get_map_key().api_key;
 
 export default function Map() {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [lng] = useState(-70.9);
-    const [lat] = useState(42.35);
+    const [lng] = useState(100.509177);
+    const [lat] = useState(13.732571);
     const [zoom] = useState(9);
 
     useEffect(() => {
