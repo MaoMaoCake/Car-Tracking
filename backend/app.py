@@ -5,6 +5,9 @@ from backend.utility.location import get_locations
 from backend.utility.signup import add_user,check_user_not_exist,check_email_not_exist
 from backend.utility.trackers import getTrackers
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -58,6 +61,16 @@ def signup():
                 return {'status':'failed',"message": "Email already exist"}
         else:
             return {'status':'failed',"message": "Username already exist"}
+
+# secure access to API keys from the frontend
+@app.route('/api/map', methods=['GET'])
+def get_map():
+    if request.method == "GET":
+        # get the token from the request
+        token = request.args.get('token')
+        print(token)
+        if token != "":
+            return {"api_key":os.getenv("MAP_API_KEY")}
 
 if __name__ == '__main__':
     app.run(debug=True)

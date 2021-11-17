@@ -1,10 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './map.css';
+import {getCookie} from "./cookie";
 function get_map_key(){
-    return key
+    var xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.open("GET", "/api/map?token=" + getCookie("token"), false); // true for asynchronous
+    xmlHttp.send(null);
+
+    if (xmlHttp.status === 200) {
+        return JSON.parse(xmlHttp.responseText);
+    }
 }
-mapboxgl.accessToken = get_map_key()
+
+mapboxgl.accessToken = get_map_key().api_key;
 
 export default function Map() {
     const mapContainer = useRef(null);
