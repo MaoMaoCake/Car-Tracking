@@ -69,6 +69,7 @@ def get_map():
         token = request.args.get('token')
         if token != "":
             return {"api_key":os.getenv("MAP_API_KEY")}
-
+        else:
+            return {"api_key":""}
 if __name__ == '__main__':
     app.run(debug=True)
