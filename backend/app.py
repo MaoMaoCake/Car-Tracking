@@ -19,7 +19,6 @@ def login():
     if request.method == "GET":
         # get the username and password from the request
         # get cookies from the request
-        # print(request.cookies.get('token'))
         username = request.args['username']
         password = request.args['password']
         # verify the user
@@ -68,7 +67,6 @@ def get_map():
     if request.method == "GET":
         # get the token from the request
         token = request.args.get('token')
-        print(token)
         if token != "":
             return {"api_key":os.getenv("MAP_API_KEY")}
 

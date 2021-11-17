@@ -17,24 +17,27 @@ function get_map_key(){
 // get_map_key returns JSON with api_key key
 mapboxgl.accessToken = get_map_key().api_key;
 
-export default function Map() {
+export default function Map(props) {
+    // let device_id = useState({data : []});
+    let loc_array = props.data.location
+    console.log("clicked")
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [lng] = useState(100.509177);
-    const [lat] = useState(13.732571);
-    const [zoom] = useState(9);
+    const zoom = 17;
 
     useEffect(() => {
-        if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [lng, lat],
+        center: [loc_array[0].longitude, loc_array[0].latitude],
         zoom: zoom
         });
-        map.current = new mapboxgl.Marker() // initialize a new marker
-        .setLngLat([lng, lat]) // Marker [lng, lat] coordinates
-        .addTo(map.current);
+        for (let i = 0; i < loc_array.length; i++){
+            new mapboxgl.Marker() // initialize a new marker
+            .setLngLat([loc_array[i].longitude, loc_array[i].latitude]) // Marker [lng, lat] coordinates
+            .addTo(map.current);
+        }
+
         });
         return (
             <div>
