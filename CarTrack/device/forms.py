@@ -9,7 +9,8 @@ class AddTrackerForm(FlaskForm):
     device_id = StringField('Device ID', validators=[DataRequired(), Length(min=2, max=20)])
     device_password = PasswordField('Device Password', validators=[DataRequired(), Length(min=2, max=20)])
     confirm_device_password = PasswordField('Confirm Device Password', validators=[DataRequired(),
-                                             Length(min=2, max=20), EqualTo('device_password')])
+                                                                                   Length(min=2, max=20),
+                                                                                   EqualTo('device_password')])
     submit = SubmitField('Add Device')
 
     def validate_device_id(self, device_id):
