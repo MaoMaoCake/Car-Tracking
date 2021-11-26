@@ -63,8 +63,11 @@
                 {% endif %}
             </div>
             <div class="col-md-9">
-                this is the map side
+                <div class="d-flex justify-content-center">
+                    <div id='map' class="p-0 m-0" style='width: 100vw; height:100vh;'></div>
+                </div>
             </div>
         </div>
     </div>
+    <script src="{{ url_for("static",filename="drawMap.js") }}"></script>
 {% endblock %}
