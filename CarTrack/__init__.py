@@ -12,6 +12,12 @@ login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
+# temporary create db command
+def create_db():
+    app = create_app()
+    with app.app_context():
+        db.create_all()
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -22,14 +28,14 @@ def create_app(config_class=Config):
 
     from CarTrack.main.routes import main
     from CarTrack.users.routes import users
-    from CarTrack.devices.routes import devices
-    from CarTrack.errors.handlers import errors
-    from CarTrack.location.routes import location
+    # from CarTrack.devices.routes import devices
+    # from CarTrack.errors.handlers import errors
+    # from CarTrack.location.routes import location
 
     app.register_blueprint(main)
     app.register_blueprint(users)
-    app.register_blueprint(devices)
-    app.register_blueprint(errors)
-    app.register_blueprint(location)
+    # app.register_blueprint(devices)
+    # app.register_blueprint(errors)
+    # app.register_blueprint(location)
 
     return app

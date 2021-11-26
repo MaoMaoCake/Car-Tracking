@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 bg-dark" style="height: 100vh">
+{#            change back to if is auth #}
+                {% if current_user.is_authenticated %}
+                    <p class="h2 text-light p-2 mb-4">Hello {{ current_user.username }}</p>
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header " id="panelsStayOpen-headingOne">
+                                <button class="accordion-button bg-dark text-light border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                    My Trackers
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                                <div class="accordion-body bg-dark">
+                                    {% for i in my_tracker %}
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a class="text-light text-decoration-none" href="#">
+                                                <p class="text-light">{{ i }}</p>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="d-flex flex-column align-items-center">
+                                        <a class="text-light text-decoration-none" href="#">
+                                            <p class="text-light">Add Trackers</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                <button class="accordion-button bg-dark text-light border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                    Shared Trackers
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                <div class="accordion-body bg-dark">
+                                    {% for i in shared_tracker %}
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a class="text-light text-decoration-none" href="#">
+                                                <p class="text-light">{{ i }}</p>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="d-flex flex-column align-items-center">
+                                        <a class="text-light text-decoration-none" href="#">
+                                            <p class="text-light">Share Trackers</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <a class="text-decoration-none" href="{{ url_for('users.login') }}">
+                        <p class="h3 ">
+                            Welcome Please Login To Access our Services
+                        </p>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col-md-9">
+                this is the map side
+            </div>
+        </div>
+    </div>
+{% endblock %}
