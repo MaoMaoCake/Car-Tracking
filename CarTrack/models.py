@@ -22,7 +22,7 @@ class Device(db.Model):
     # optional password to protect the device from being added by other users
     password = db.Column(db.String(60), nullable=True)
     device_id = db.Column(db.String(20), nullable=False)
-    locations = db.relationship('Location',backref='device', lazy=True)
+    # locations = db.relationship('Location',backref='device', lazy=True)
     owner = db.relationship('User', secondary="device_link", back_populates="devices")
 
 class DeviceLink(db.Model):
@@ -37,3 +37,4 @@ class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(40), nullable=False)
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    timestamp = db.Column(db.DateTime, nullable=False)
