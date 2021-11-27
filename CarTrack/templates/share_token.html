@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container-sm">
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 text-light">Share Your Token</legend>
+                <div class="form-group">
+                    {{ form.device_id.label(class="form-control-label text-light") }}
+                    {% if form.device_id.errors %}
+                        {{ form.device_id(class="form-control form-control-lg is-invalid mt-2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.device_id.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.device_id(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                {# target username #}
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label text-light") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid mt-2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group mt-2">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}
