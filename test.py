@@ -1,3 +1,4 @@
+from datetime import datetime
 from secrets import token_urlsafe
 from CarTrack import create_app, db, bcrypt
 from CarTrack.models import Device, User, DeviceLink, Location
@@ -58,7 +59,7 @@ db.session.commit()
 
 # make location
 loc_json = "{'lat': '1.1', 'lng': '2.2'}"
-loc = Location(device_id=device.id, location=loc_json,timestamp='2020-01-01 00:00:00')
+loc = Location(device_id=device.id, location=loc_json,timestamp=datetime.now())
 db.session.add(loc)
 db.session.commit()
 
@@ -67,4 +68,4 @@ print("Shield Devices:", shield.devices)
 print("Shield shared device:", DeviceLink.query.join(User).filter(User.id == shield.id).filter(DeviceLink.mode == "guest").first().device_id)
 print("Location Query:", Location.query.filter(Location.device_id == DeviceLink.query.join(User)\
                                                .filter(User.id == shield.id)\
-                                               .filter(DeviceLink.mode == "guest").first().device_id).all()[0].location)
+                                               .filter(DeviceLink.mode == "guest").first().device_id).all()[0].timestamp)
