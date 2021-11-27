@@ -1,10 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2 bg-dark" style="height: 100vh">
-{#            change back to if is auth #}
-                {% if current_user.is_authenticated %}
+    {% if current_user.is_authenticated %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 bg-dark" style="height: 100vh">
                     <p class="h2 text-light p-2 mb-4">Hello {{ current_user.username }}</p>
                     <div class="accordion" id="accordionPanelsStayOpenExample">
                         <div class="accordion-item border-0">
@@ -54,13 +53,23 @@
                             </div>
                         </div>
                     </div>
-            </div>
-            <div class="col-md-9">
-                <div class="d-flex justify-content-center">
-                    <div id='map' class="p-0 m-0" style='width: 100vw; height:100vh;'></div>
+                </div>
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-center">
+                        <div id='map' class="p-0 m-0" style='width: 100vw; height:100vh;'></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% else %}
+        <div class="d-flex align-items-center  justify-content-center w-100 h-100">
+            <div class="border border-light rounded p-5 m-5 d-flex flex-column">
+                <p class="h1 text-light text-center">
+                    To Use Our Service Please Sign In
+                </p>
+                <a href="{{ url_for('users.login') }}" class="text-light btn btn-primary">Sign In</a>
+            </div>
+        </div>
+    {% endif %}
     <script src="{{ url_for("static",filename="drawMap.js") }}"></script>
 {% endblock %}

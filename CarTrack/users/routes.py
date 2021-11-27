@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_required, current_user, login_user, logout_user
 
 from CarTrack import db, bcrypt
 from CarTrack.models import User
-from CarTrack.users.forms import RegistrationForm, LoginForm
+from CarTrack.users.forms import RegistrationForm, LoginForm, EditProfileForm
+from CarTrack.users.utils import save_picture
 
 users = Blueprint('users', __name__)
 
@@ -35,6 +36,33 @@ def register():
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html',title='Register',form=form)
+
+@users.route('/profile/<int:id>',methods=['GET','POST'])
+@login_required
+def profile(id):
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    if id == current_user.id:
+        # if the user is viewing their own profile render form
+        form = EditProfileForm()
+        if form.validate_on_submit():
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                current_user.image_file = picture_file
+            current_user.username = form.username.data
+            current_user.email = form.email.data
+            current_user.password = form.new_password.data
+            db.session.commit()
+            flash('Your changes have been saved.', 'success')
+            print("changed_password")
+            return redirect(url_for('users.profile', id=current_user.id))
+        elif request.method == "GET":
+            form.username.data = current_user.username
+            form.email.data = current_user.email
+            return render_template('profile.html', title='Profile', form=form,user=current_user, image_file=image_file)
+    else:
+        # if the user is not viewing their own profile render the profile page
+        user = User.query.get_or_404(id)
+        return render_template('profile.html',title='Profile', image_file=image_file, user=user)
 
 @users.route('/logout')
 def logout():
