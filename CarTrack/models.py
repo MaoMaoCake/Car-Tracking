@@ -27,6 +27,7 @@ class Device(db.Model):
     color = db.Column(db.String(20), nullable=False)
     # optional password to protect the device from being added by other users
     password = db.Column(db.String(60), nullable=True)
+    device_id = db.Column(db.String(20), nullable=False)
     locations = db.relationship('Location',backref='device', lazy=True)
 
 class Location(db.Model):
