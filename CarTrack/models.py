@@ -6,12 +6,6 @@ from flask import current_app
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-device_owner_identifier = db.Table('device_owner_identifier',
-    db.Column('device_id', db.Integer, db.ForeignKey('device.id')),
-    db.Column('owner_id', db.Integer, db.ForeignKey('user.id')),
-    # mode is either 'owner' or 'guest' this shows affects how the device is displayed in the user's device list
-    db.Column('mode', db.String(5))
-)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,7 +13,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
-    devices = db.relationship('Device', secondary=device_owner_identifier)
+    devices = db.relationship('Device', secondary="device_link", back_populates="owner")
 
 class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +23,15 @@ class Device(db.Model):
     password = db.Column(db.String(60), nullable=True)
     device_id = db.Column(db.String(20), nullable=False)
     locations = db.relationship('Location',backref='device', lazy=True)
+    owner = db.relationship('User', secondary="device_link", back_populates="devices")
+
+class DeviceLink(db.Model):
+    __tablename__ = 'device_link'
+    id = db.Column(db.Integer, primary_key=True)
+    device_id = db.Column('device_id', db.Integer, db.ForeignKey('device.id'))
+    user_id = db.Column('owner_id', db.Integer, db.ForeignKey('user.id'))
+    # mode is either 'owner' or 'guest' this shows affects how the device is displayed in the user's device list
+    mode = db.Column('mode', db.String(5))
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
