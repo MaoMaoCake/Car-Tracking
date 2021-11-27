@@ -6,7 +6,7 @@ from CarTrack.device.forms import AddTrackerForm
 
 device = Blueprint('device', __name__)
 
-@device.route('/add_device', methods=['POST'])
+@device.route('/add_device', methods=['POST', 'GET'])
 def add_device():
     form = AddTrackerForm()
     if form.validate_on_submit():
@@ -17,3 +17,4 @@ def add_device():
         flash('Device added successfully!','success')
         return redirect(url_for('main.home'))
     return render_template('add_device.html', title="Add Device", form=form)
+
