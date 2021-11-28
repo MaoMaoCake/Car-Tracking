@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_required, current_user
 
 from CarTrack import db
 from CarTrack.models import Device
@@ -18,3 +19,8 @@ def add_device():
         return redirect(url_for('main.home'))
     return render_template('add_device.html', title="Add Device", form=form)
 
+@device.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    # this is settings page for device
+    return "device settings"
