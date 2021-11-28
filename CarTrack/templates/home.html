@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="fixed-bottom col-md-2 d-flex flex-column ">
-                        <a href="{{ url_for("device.settings") }}" class="btn btn-bg text-light mt-3 ml-2">Device Settings</a>
+                        <a href="{{ url_for("device.settings",user_id=current_user.id) }}" class="btn btn-bg text-light mt-3 ml-2">Device Settings</a>
                         <a href="{{ url_for("users.logout") }}" class="btn btn-bg text-light mt-3 ml-2">Logout</a>
                     </div>
                 </div>
