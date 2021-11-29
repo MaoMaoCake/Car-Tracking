@@ -1,4 +1,7 @@
-function display_map(longitude=77.3852, latitude=28.5066) {
+function display_map(device_id) {
+    // get location using device id
+    let longitude=77.3852, latitude=28.5066
+    // get api key from backend
     mapboxgl.accessToken = '';
     var map = new mapboxgl.Map({
     container: 'map',
@@ -63,4 +66,3 @@ function display_map(longitude=77.3852, latitude=28.5066) {
         }, labelLayerId);
     });
 }
-display_map();

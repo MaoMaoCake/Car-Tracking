@@ -36,8 +36,6 @@ def settings(user_id):
     shared_device = []
     for i in DeviceLink.query.join(User).filter(User.id == user.id).filter(DeviceLink.mode == "guest").all():
         shared_device.append(Device.query.filter_by(id=i.device_id).first())
-    print(my_device)
-    print(shared_device)
     return render_template('device_settings.html', title="Device Settings", my_device=my_device, shared_device=shared_device)
 
 @device.route('/manage_device/<int:device_id>', methods=['GET', 'POST'])
