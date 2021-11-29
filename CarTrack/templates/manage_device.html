@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container-sm">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 text-light">Manage {{ device.name }}</legend>
+                <div class="form-group">
+                    {{ form.device_name.label(class="form-control-label text-light") }}
+                    {% if form.device_name.errors %}
+                        {{ form.device_name(class="form-control form-control-lg is-invalid mt-2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.device_name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.device_name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.device_color.label(class="form-control-label text-light mt-2") }}
+                    {% if form.device_color.errors %}
+                        {{ form.device_color(class="form-control form-control-lg is-invalid mt-2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.device_color.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.device_color(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.old_device_password.label(class="form-control-label text-light mt-2") }}
+                    {% if form.old_device_password.errors %}
+                        {{ form.old_device_password(class="form-control form-control-lg is-invalid mt-2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.old_device_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.old_device_password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.device_password.label(class="form-control-label text-light mt-2") }}
+                    {% if form.device_password.errors %}
+                        {{ form.device_password(class="form-control form-control-lg is-invalid mt-2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.device_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.device_password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_device_password.label(class="form-control-label text-light mt-2") }}
+                    {% if form.confirm_device_password.errors %}
+                        {{ form.confirm_device_password(class="form-control form-control-lg is-invalid mt-2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_device_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_device_password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group mt-2">
+                {{ form.submit(class="btn btn-outline-info") }}
+                <small class="text-muted ml-4">
+                    <a href="#">Forgot Password?</a>
+                </small>
+            </div>
+        </form>
+    </div>
+{% endblock %}

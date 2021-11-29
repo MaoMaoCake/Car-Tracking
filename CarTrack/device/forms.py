@@ -17,3 +17,12 @@ class AddTrackerForm(FlaskForm):
         device = Device.query.filter_by(device_id=device_id.data).first()
         if device:
             raise ValidationError('This device is already registered.')
+
+class ManageDeviceForm(FlaskForm):
+    device_name = StringField('Device Name', validators=[DataRequired(), Length(min=2, max=20)])
+    device_color = StringField('Device Color', validators=[DataRequired(), Length(min=2, max=20)])
+    old_device_password = PasswordField('Old Device Password')
+    device_password = PasswordField('Device Password', validators=[Length(min=2, max=20)])
+    confirm_device_password = PasswordField('Confirm Device Password', validators=[Length(min=2, max=20),
+                                                                                   EqualTo('device_password')])
+    submit = SubmitField('Update Device')

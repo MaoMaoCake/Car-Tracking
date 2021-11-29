@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 from CarTrack import db
 from CarTrack.models import Device
-from CarTrack.device.forms import AddTrackerForm
+from CarTrack.device.forms import AddTrackerForm, ManageDeviceForm
 from CarTrack.models import User, DeviceLink
 
 device = Blueprint('device', __name__)
@@ -43,9 +43,27 @@ def settings(user_id):
 @device.route('/manage_device/<int:device_id>', methods=['GET', 'POST'])
 @login_required
 def manage_devices(device_id):
+    # device id is number in the id column of the device table
     device = Device.query.get_or_404(device_id)
     owner_id = DeviceLink.query.filter_by(device_id=device.id).filter_by(mode="owner").first().user_id
     if owner_id != current_user.id:
         flash('You cannot manage other users devices!','danger')
         return redirect(url_for('main.home'))
-    return render_template('manage_device.html', title="Manage Device", device=device)
+    else:
+        form = ManageDeviceForm()
+        if form.validate_on_submit():
+            print(device.password)
+            if form.old_device_password.data == device.password or device.password == None:
+                device.name = form.device_name.data
+                device.color = form.device_color.data
+                device.password = form.device_password.data
+                db.session.commit()
+                flash('Device updated successfully!','success')
+                return redirect(url_for('device.settings', user_id=current_user.id))
+            else:
+                flash('Incorrect password!','danger')
+                return redirect(url_for('device.manage_devices', device_id=device.id))
+        elif request.method == 'GET':
+            form.device_name.data = device.name
+            form.device_color.data = device.color
+        return render_template('manage_device.html', title="Manage Device", device=device, form=form)
