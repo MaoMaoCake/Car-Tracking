@@ -1,8 +1,19 @@
+function getLocationAPI(){
+    var xmlHttp = new XMLHttpRequest();
+    // this can be synchronous because website will not function without this key
+    xmlHttp.open("GET", "/api/map_key", false); // true for asynchronous
+    xmlHttp.send(null);
+
+    if (xmlHttp.status === 200) {
+        return JSON.parse(xmlHttp.responseText);
+    }
+}
+
 function display_map(device_id) {
     // get location using device id
     let longitude=77.3852, latitude=28.5066
     // get api key from backend
-    mapboxgl.accessToken = '';
+    mapboxgl.accessToken = getLocationAPI().map_key;
     var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/satellite-streets-v10',

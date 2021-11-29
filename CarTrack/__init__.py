@@ -30,12 +30,12 @@ def create_app(config_class=Config):
     from CarTrack.users.routes import users
     from CarTrack.device.routes import device
     # from CarTrack.errors.handlers import errors
-    # from CarTrack.location.routes import location
+    from CarTrack.location.routes import location
 
     app.register_blueprint(main)
     app.register_blueprint(users)
     app.register_blueprint(device)
     # app.register_blueprint(errors)
-    # app.register_blueprint(location)
+    app.register_blueprint(location)
 
     return app
