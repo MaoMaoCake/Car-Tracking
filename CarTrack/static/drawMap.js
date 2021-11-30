@@ -26,9 +26,25 @@ function display_map(device_id) {
     // fulscreen button
     map.addControl(new mapboxgl.FullscreenControl());
     // display a blue marker
-    var marker = new mapboxgl.Marker()
+    new mapboxgl.Marker()
         .setLngLat([longitude,latitude])
         .addTo(map);
+
+
+    setInterval(UpdateMarker, 5000);
+
+    var i = 0;
+
+    function UpdateMarker(){
+        i = i + 1;
+        new mapboxgl.Marker()
+        .setLngLat([longitude+0.005, latitude+0.005])
+        .addTo(map);
+
+        map.update();
+    }
+
+
     // Navigation marker at top-left corner
     var nav = new mapboxgl.NavigationControl();
         map.addControl(nav, 'top-left');
