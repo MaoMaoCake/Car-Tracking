@@ -5,7 +5,7 @@ from CarTrack.models import Device, User, DeviceLink, Location
 
 app = create_app()
 app.app_context().push()
-db.create_all()
+# db.create_all()
 
 # # create user
 # password = bcrypt.generate_password_hash('maomao').decode('utf-8')
@@ -25,7 +25,7 @@ db.create_all()
 # maomao = User.query.filter_by(username='maomao').first()
 # print(maomao)
 #
-# # make 1st device
+# make 1st device
 # token = token_urlsafe(16)
 # device = Device(name="MaoMao Tracker", color="red", device_id=token)
 # db.session.add(device)
@@ -56,12 +56,14 @@ db.create_all()
 # link4 = DeviceLink(user_id=maomao.id, device_id=device2.id,mode="guest")
 # db.session.add(link4)
 # db.session.commit()
-#
-# # make location
-# loc_json = "{'lat': '1.1', 'lng': '2.2'}"
-# loc = Location(device_id=device.id, location=loc_json,timestamp=datetime.now())
-# db.session.add(loc)
-# db.session.commit()
+
+device = Device.query.filter_by(id=1).first()
+# make location
+loc_json = ["13.732571, 100.509177","13.732571, 100.510177","13.732571, 100.511177", "13.732571, 100.512177", "13.732571, 100.513177"]
+for i in loc_json:
+    loc = Location(device_id=device.id, location=i, timestamp=datetime.now())
+    db.session.add(loc)
+    db.session.commit()
 
 # print("MaoMao devices:", maomao.devices)
 # print("Shield Devices:", shield.devices)
@@ -70,9 +72,9 @@ db.create_all()
 #                                                .filter(User.id == shield.id)\
 #                                                .filter(DeviceLink.mode == "guest").first().device_id).all()[0].timestamp)
 
-maomao = User.query.filter_by(username='maomao').first()
-device = Device.query.filter_by(id=2).first()
-ids = DeviceLink.query.join(User).filter(User.id == maomao.id).filter(DeviceLink.mode == "owner").all()
-for i in ids:
-    print("Device name from User ID", Device.query.filter_by(id=i.device_id).first())
-print("User ID from device:", DeviceLink.query.filter_by(device_id=device.id).filter_by(mode="owner").first().user_id)
+# maomao = User.query.filter_by(username='maomao').first()
+# device = Device.query.filter_by(id=2).first()
+# ids = DeviceLink.query.join(User).filter(User.id == maomao.id).filter(DeviceLink.mode == "owner").all()
+# for i in ids:
+#     print("Device name from User ID", Device.query.filter_by(id=i.device_id).first())
+# print("User ID from device:", DeviceLink.query.filter_by(device_id=device.id).filter_by(mode="owner").first().user_id)

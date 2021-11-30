@@ -1,0 +1,19 @@
+server {
+    listen 80 default_server;
+
+    server_name _;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name cartrack.jirapongpansak.com;
+
+    ssl_certificate /etc/letsencrypt/live/cartrack.jirapongpansak.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/cartrack.jirapongpansak.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:5000;
+    }
+}

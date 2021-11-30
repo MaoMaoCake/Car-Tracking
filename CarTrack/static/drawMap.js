@@ -8,53 +8,54 @@ function getLocationAPI(){
         return JSON.parse(xmlHttp.responseText);
     }
 }
+function getLocation(device_id){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "/api/get_location?device_id=" + device_id, false); // true for asynchronous
+    xmlHttp.send(null);
 
+    if (xmlHttp.status === 200) {
+        return JSON.parse(xmlHttp.responseText);
+    }
+}
 function display_map(device_id) {
     // get location using device id
-    let longitude=77.3852, latitude=28.5066
+    var locations = getLocation(device_id).locations;
+    console.log(locations);
     // get api key from backend
     mapboxgl.accessToken = getLocationAPI().map_key;
+
+    // parse Center using the first location
+    let LngLat = locations[0].split(",");
+    console.log(LngLat);
+    let lat = parseFloat(LngLat[0]);
+    let long = parseFloat(LngLat[1]);
+
+    // create map
     var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/satellite-streets-v10',
-    center: [longitude,latitude],
+    center: [long,lat],
     zoom: 16,
     bearing: -17.6,
     pitch:45
-
     });
-    // fulscreen button
+
+    // Map controls
     map.addControl(new mapboxgl.FullscreenControl());
-    // display a blue marker
-    new mapboxgl.Marker()
-        .setLngLat([longitude,latitude])
-        .addTo(map);
-
-
-    setInterval(UpdateMarker, 5000);
-
-    var i = 0;
-
-    function UpdateMarker(){
-        i = i + 1;
+    for (let i = 0; i < locations.length; i++){
+        let LngLat = locations[i].split(",");
+        let lat = parseFloat(LngLat[0]);
+        let long = parseFloat(LngLat[1]);
+        // add marker
         new mapboxgl.Marker()
-        .setLngLat([longitude+0.005, latitude+0.005])
+        .setLngLat([long,lat])
         .addTo(map);
-
-        map.update();
     }
-
 
     // Navigation marker at top-left corner
     var nav = new mapboxgl.NavigationControl();
-        map.addControl(nav, 'top-left');
-    // change false to true, to get your location. Then, enable location in the browser.
-    map.addControl(new mapboxgl.GeolocateControl({
-            positionOptions: {
-                enableHighAccuracy: false
-            },
-        trackUserLocation: false
-    }));
+    map.addControl(nav, 'top-left');
+
     // The 'building' layer in the mapbox-streets vector source contains building-height
     // data from OpenStreetMap.
     map.on('load', function() {
