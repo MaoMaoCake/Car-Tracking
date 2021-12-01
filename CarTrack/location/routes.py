@@ -23,7 +23,6 @@ def get_location():
     if request.method == 'GET':
         device_id = request.args.get('device_id')
         locations = Location.query.filter_by(device_id=device_id).all()
-        print(locations)
         return {'status': 'success', 'locations': [location.location for location in locations]}
     return {'status': 'failed'}
 

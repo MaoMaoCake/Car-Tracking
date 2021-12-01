@@ -53,7 +53,6 @@ def profile(id):
             current_user.password = form.new_password.data
             db.session.commit()
             flash('Your changes have been saved.', 'success')
-            print("changed_password")
             return redirect(url_for('users.profile', id=current_user.id))
         elif request.method == "GET":
             form.username.data = current_user.username

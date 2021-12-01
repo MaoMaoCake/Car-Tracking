@@ -50,7 +50,6 @@ def manage_devices(device_id):
     else:
         form = ManageDeviceForm()
         if form.validate_on_submit():
-            print(device.password)
             if form.old_device_password.data == device.password or device.password == None:
                 device.name = form.device_name.data
                 device.color = form.device_color.data

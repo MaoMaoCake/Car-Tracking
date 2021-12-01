@@ -6,13 +6,13 @@ from CarTrack.models import Device, User, DeviceLink, Location
 app = create_app()
 app.app_context().push()
 # db.create_all()
-
+#
 # # create user
 # password = bcrypt.generate_password_hash('maomao').decode('utf-8')
 # maomao = User(username='maomao', email="maomao@m.m", password=password)
 #
-# # db.session.add(maomao)
-# # db.session.commit()
+# db.session.add(maomao)
+# db.session.commit()
 #
 # # create user
 # password = bcrypt.generate_password_hash('asd').decode('utf-8')
@@ -21,11 +21,11 @@ app.app_context().push()
 # db.session.add(shield)
 # db.session.commit()
 #
-# get user
-# maomao = User.query.filter_by(username='maomao').first()
-# print(maomao)
+# # get user
+# # maomao = User.query.filter_by(username='maomao').first()
+# # print(maomao)
 #
-# make 1st device
+# # make 1st device
 # token = token_urlsafe(16)
 # device = Device(name="MaoMao Tracker", color="red", device_id=token)
 # db.session.add(device)
@@ -59,11 +59,11 @@ app.app_context().push()
 
 device = Device.query.filter_by(id=2).first()
 # make location
-# loc_json = ["13.732571, 100.509177","13.732571, 100.510177","13.732571, 100.511177", "13.732571, 100.512177", "13.732571, 100.513177"]
-loc_json = ["13.726607559695099,100.50900220870973","13.724731518375952,100.50915241241456",
-            "13.723439125628536,100.50902366638185","13.721552636338338,100.50889492034912",
-            "13.720155999137464,100.5087447166443","13.718811467412552,100.50810098648073",
-            "13.717237625918775,100.50732851028444","13.716091112226623,100.50624489784242"]
+loc_json = []
+# loc_json = ["13.726607559695099,100.50900220870973","13.724731518375952,100.50915241241456",
+#             "13.723439125628536,100.50902366638185","13.721552636338338,100.50889492034912",
+#             "13.720155999137464,100.5087447166443","13.718811467412552,100.50810098648073",
+#             "13.717237625918775,100.50732851028444","13.716091112226623,100.50624489784242"]
 for i in loc_json:
     loc = Location(device_id=device.id, location=i, timestamp=datetime.now())
     db.session.add(loc)
