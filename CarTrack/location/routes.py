@@ -1,8 +1,8 @@
 import os
-
+from datetime import datetime
 from CarTrack import db
 from flask import Blueprint,request
-from CarTrack.models import Location
+from CarTrack.models import Location,Device
 
 
 location = Blueprint('location', __name__)
@@ -10,12 +10,17 @@ location = Blueprint('location', __name__)
 @location.route('/api/add_location', methods=['POST'])
 def add_location():
     if request.method == 'POST':
-        device_id = request.args.get('device_id')
-        location = request.args.get('location')
-        location_obj = Location(device_id=device_id, location=location)
-        db.session.add(location_obj)
-        db.session.commit()
-        return {'status': 'success'}
+        try:
+            device_id = request.args.get('device_id')
+            dev_id = Device.query.filter_by(device_id=device_id).first()
+            location = request.args.get('location')
+            print(dev_id.id, location)
+            location_obj = Location(device_id=dev_id.id, location=location, timestamp=datetime.now())
+            db.session.add(location_obj)
+            db.session.commit()
+            return {'status': 'success'}
+        except Exception as e:
+            return {'status': 'failed', 'error': str(e)}
     return {'status': 'failed'}
 
 @location.route('/api/get_location', methods=['GET'])
