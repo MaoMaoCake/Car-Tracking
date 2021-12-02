@@ -20,7 +20,7 @@
                                         </div>
                                     {% endfor %}
                                     <div class="d-flex flex-column align-items-center">
-                                        <a class="text-light text-decoration-none" href="">
+                                        <a class="text-light text-decoration-none" href="{{ url_for("device.add_device") }}">
                                             <p class="text-light">Add Trackers</p>
                                         </a>
                                     </div>
@@ -41,7 +41,7 @@
                                         </div>
                                     {% endfor %}
                                     <div class="d-flex flex-column align-items-center">
-                                        <a class="text-light text-decoration-none" href="">
+                                        <a class="text-light text-decoration-none" href="{{ url_for("device.share_device") }}">
                                             <p class="text-light">Share Trackers</p>
                                         </a>
                                     </div>

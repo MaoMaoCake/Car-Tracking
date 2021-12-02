@@ -2,9 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 
 from CarTrack import db
-from CarTrack.models import Device
-from CarTrack.device.forms import AddTrackerForm, ManageDeviceForm
-from CarTrack.models import User, DeviceLink
+from CarTrack.models import Device,User, DeviceLink
+from CarTrack.device.forms import AddTrackerForm, ManageDeviceForm, ShareTrackerForm
 
 device = Blueprint('device', __name__)
 
@@ -13,11 +12,21 @@ def add_device():
     form = AddTrackerForm()
     if form.validate_on_submit():
         device = Device(name=form.device_name.data,color=form.device_color.data,
-                        password=form.device_password.data)
+                        device_id=form.device_id.data,password=form.device_password.data)
         db.session.add(device)
+        db.session.commit()
+        print(device.id)
+        link = DeviceLink(user_id=current_user.id, device_id=device.id, mode="owner")
+        db.session.add(link)
         db.session.commit()
         flash('Device added successfully!','success')
         return redirect(url_for('main.home'))
+    return render_template('add_device.html', title="Add Device", form=form)
+
+@device.route('/share_device', methods=['POST', 'GET'])
+def share_device():
+    form = ShareTrackerForm()
+    print("Share device")
     return render_template('add_device.html', title="Add Device", form=form)
 
 @device.route('/settings/<int:user_id>', methods=['GET', 'POST'])

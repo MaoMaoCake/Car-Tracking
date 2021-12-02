@@ -44,13 +44,13 @@ print(maomao)
 # make 1st device
 print("creating devices")
 token = token_urlsafe(16)
-device = Device(name="MaoMao Tracker", color="red", device_id=token)
+device = Device(name="MaoMao Tracker", color="red", device_id=token,password="asd")
 db.session.add(device)
 db.session.commit()
 
 #make 2nd device
 token = token_urlsafe(16)
-device2 = Device(name="Shield Tracker", color="blue", device_id=token)
+device2 = Device(name="Shield Tracker", color="blue", device_id=token,password="asd")
 db.session.add(device2)
 db.session.commit()
 
