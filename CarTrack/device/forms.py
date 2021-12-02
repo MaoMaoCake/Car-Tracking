@@ -29,9 +29,9 @@ class ManageDeviceForm(FlaskForm):
     submit = SubmitField('Update Device')
 
 
-class ShareTrackerForm:
+class ShareTrackerForm(FlaskForm):
     # use the whole device class and extract id later?
-    device = SelectField('Device', choices=[])
+    device = SelectField('Device', choices=["test"])
     # who we are sharing this device with
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField('Device Password', validators=[DataRequired(),Length(min=2, max=20)])

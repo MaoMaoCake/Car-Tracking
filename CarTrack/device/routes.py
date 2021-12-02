@@ -15,7 +15,6 @@ def add_device():
                         device_id=form.device_id.data,password=form.device_password.data)
         db.session.add(device)
         db.session.commit()
-        print(device.id)
         link = DeviceLink(user_id=current_user.id, device_id=device.id, mode="owner")
         db.session.add(link)
         db.session.commit()
@@ -26,8 +25,29 @@ def add_device():
 @device.route('/share_device', methods=['POST', 'GET'])
 def share_device():
     form = ShareTrackerForm()
-    print("Share device")
-    return render_template('add_device.html', title="Add Device", form=form)
+    form.device.choices = []
+    device_id_list = DeviceLink.query.join(User).filter(User.id == current_user.id)\
+        .filter(DeviceLink.mode == "owner").all()
+    for i in device_id_list:
+        cur = Device.query.filter_by(id=i.device_id).first()
+        form.device.choices.append(cur)
+    if form.validate_on_submit():
+        dev_id = None
+        for i in device_id_list:
+            cur = Device.query.filter_by(id=i.device_id).first()
+            if cur.name == form.device.data:
+                dev_id = cur.id
+        if dev_id is not None:
+            shared_user = User.query.filter_by(username=form.username.data).first()
+            link = DeviceLink(user_id=shared_user.id, device_id=dev_id, mode="guest")
+            db.session.add(link)
+            db.session.commit()
+            flash('Device shared successfully!','success')
+            return redirect(url_for('main.home'))
+        else:
+            flash('Device Cannot be found This should not happen','danger')
+            return redirect(url_for('main.home'))
+    return render_template('share_device.html', title="Share Device", form=form)
 
 @device.route('/settings/<int:user_id>', methods=['GET', 'POST'])
 @login_required

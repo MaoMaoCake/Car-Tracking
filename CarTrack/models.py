@@ -25,6 +25,9 @@ class Device(db.Model):
     # locations = db.relationship('Location',backref='device', lazy=True)
     owner = db.relationship('User', secondary="device_link", back_populates="devices")
 
+    def __repr__(self):
+        return f"{self.name}"
+
 class DeviceLink(db.Model):
     __tablename__ = 'device_link'
     id = db.Column(db.Integer, primary_key=True)
