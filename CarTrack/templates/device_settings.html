@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container-sm">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="text-light h1 text-center mb-5 pb-5">Device Settings</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 parent">
+                <p class="h2 text-light text-center mb-4">Your Devices</p>
+            <p class="small">Click The Name To Manage</p>
+                {% for device in my_device %}
+                    <a href="{{ url_for("device.manage_devices",device_id=device.id) }}">
+                        <p class="text-light text-center w-100">
+                            {{ device.name }}
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="col-sm-6 m-0">
+                <p class="h2 text-light text-center mb-4">Devices Shared With You</p>
+                <p class="small">You Cannot Manage These</p>
+                {% for device in shared_device %}
+                    <p class="text-light text-center w-100"> {{ device.name }} </p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

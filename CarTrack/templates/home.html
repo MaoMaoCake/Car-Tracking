@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 bg-dark" style="height: 100vh">
+                    <p class="h2 text-light p-2 mb-4">Hello {{ current_user.username }}</p>
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header " id="panelsStayOpen-headingOne">
+                                <button class="accordion-button bg-dark text-light border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                    My Trackers
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                                <div class="accordion-body bg-dark">
+                                    {% for i in my_tracker %}
+                                        <div class="d-flex flex-column align-items-center">
+                                            <button class="btn text-light" onclick="display_map({{ i.id }})">{{ i.name }}</button>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="d-flex flex-column align-items-center">
+                                        <a class="text-light text-decoration-none" href="{{ url_for("device.add_device") }}">
+                                            <p class="text-light">Add Trackers</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                <button class="accordion-button bg-dark text-light border-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                    Shared Trackers
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                <div class="accordion-body bg-dark">
+                                    {% for i in shared_tracker %}
+                                        <div class="d-flex flex-column align-items-center">
+                                                <button class="btn text-light" onclick="display_map({{ i.id }})">{{ i.name }}</button>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="d-flex flex-column align-items-center">
+                                        <a class="text-light text-decoration-none" href="{{ url_for("device.share_device") }}">
+                                            <p class="text-light">Share Trackers</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fixed-bottom col-md-2 d-flex flex-column ">
+                        <a href="{{ url_for("device.settings",user_id=current_user.id) }}" class="btn btn-bg text-light mt-3 ml-2">Device Settings</a>
+                        <a href="{{ url_for("users.logout") }}" class="btn btn-bg text-light mt-3 ml-2">Logout</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-center">
+                        <div id='map' class="p-0 m-0" style='width: 100vw; height:100vh;'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex align-items-center  justify-content-center w-100 h-100">
+            <div class="border border-light rounded p-5 m-5 d-flex flex-column">
+                <p class="h1 text-light text-center">
+                    To Use Our Service Please Sign In
+                </p>
+                <a href="{{ url_for('users.login') }}" class="text-light btn btn-primary">Sign In</a>
+            </div>
+        </div>
+    {% endif %}
+    <script src="{{ url_for("static",filename="drawMap.js") }}"></script>
+{% endblock %}
