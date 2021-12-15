@@ -8,6 +8,7 @@ from CarTrack.device.forms import AddTrackerForm, ManageDeviceForm, ShareTracker
 device = Blueprint('device', __name__)
 
 @device.route('/add_device', methods=['POST', 'GET'])
+@login_required
 def add_device():
     form = AddTrackerForm()
     if form.validate_on_submit():
@@ -23,6 +24,7 @@ def add_device():
     return render_template('add_device.html', title="Add Device", form=form)
 
 @device.route('/share_device', methods=['POST', 'GET'])
+@login_required
 def share_device():
     form = ShareTrackerForm()
     form.device.choices = []
@@ -32,21 +34,22 @@ def share_device():
         cur = Device.query.filter_by(id=i.device_id).first()
         form.device.choices.append(cur)
     if form.validate_on_submit():
-        dev_id = None
+        selected_device = None
         for i in device_id_list:
             cur = Device.query.filter_by(id=i.device_id).first()
             if cur.name == form.device.data:
-                dev_id = cur.id
-        if dev_id is not None:
-            shared_user = User.query.filter_by(username=form.username.data).first()
-            link = DeviceLink(user_id=shared_user.id, device_id=dev_id, mode="guest")
-            db.session.add(link)
-            db.session.commit()
-            flash('Device shared successfully!','success')
-            return redirect(url_for('main.home'))
-        else:
-            flash('Device Cannot be found This should not happen','danger')
-            return redirect(url_for('main.home'))
+                selected_device = cur.id
+        if selected_device.password == form.password.data:
+            if selected_device is not None:
+                shared_user = User.query.filter_by(username=form.username.data).first()
+                link = DeviceLink(user_id=shared_user.id, device_id=selected_device.id, mode="guest")
+                db.session.add(link)
+                db.session.commit()
+                flash('Device shared successfully!','success')
+                return redirect(url_for('main.home'))
+            else:
+                flash('Device Cannot be found This should not happen','danger')
+                return redirect(url_for('main.home'))
     return render_template('share_device.html', title="Share Device", form=form)
 
 @device.route('/settings/<int:user_id>', methods=['GET', 'POST'])

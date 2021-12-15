@@ -1,5 +1,8 @@
 import os
 from datetime import datetime
+
+from flask_login import login_required
+
 from CarTrack import db
 from flask import Blueprint,request
 from CarTrack.models import Location,Device
@@ -8,6 +11,7 @@ from CarTrack.models import Location,Device
 location = Blueprint('location', __name__)
 
 @location.route('/api/add_location', methods=['POST'])
+@login_required
 def add_location():
     if request.method == 'POST':
         try:
@@ -24,6 +28,7 @@ def add_location():
     return {'status': 'failed'}
 
 @location.route('/api/get_location', methods=['GET'])
+@login_required
 def get_location():
     if request.method == 'GET':
         device_id = request.args.get('device_id')
@@ -32,6 +37,7 @@ def get_location():
     return {'status': 'failed'}
 
 @location.route('/api/map_key', methods=['GET'])
+@login_required
 def get_map_key():
     if request.method == 'GET':
         return {'status': 'success', 'map_key': os.getenv('MAPBOX_KEY')}
